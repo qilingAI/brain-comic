@@ -13,15 +13,23 @@
 
 ## 首次授权与模型检查
 
-脚本使用已核实的官方 SDK `v0.5.4` 做浏览器授权，图片调用使用官方 OpenAI SDK。Python依赖声明在脚本的PEP 723头部，推荐用已有 `uv` 运行：
+脚本使用已核实的官方 SDK `v0.5.4` 做浏览器授权，图片调用使用官方 OpenAI SDK。优先复用Agent现有Python 3.10+环境，先检查依赖，直接使用该环境的解释器运行：
 
 ```sh
-uv run scripts/qiling_images.py config
-uv run scripts/qiling_images.py authorize
-uv run scripts/qiling_images.py models
+python scripts/qiling_images.py config
+python scripts/qiling_images.py authorize
+python scripts/qiling_images.py models
 ```
 
-以上路径相对本skill根目录。运行时解析实际安装位置，不绑定开发电脑的绝对路径。已有正确依赖环境也可直接用Python。`uv`首次运行会安装声明的客户端依赖，不把整个器灵skill复制进来，也不依赖它安装在某个私人目录。
+以上路径相对本skill根目录，`python`替换为Agent实际解释器路径。运行时解析实际安装位置，不绑定开发电脑的绝对路径。缺包时使用该解释器对应的包管理器补齐，不强制切换环境。依赖包括官方器灵SDK 0.5.4、OpenAI SDK、keyring和Pillow，例如按需使用：
+
+```sh
+python -m pip install \
+  'qiling-ai-sdk @ https://github.com/qilingAI/qiling-sdk-python/releases/download/v0.5.4/qiling_ai_sdk-0.5.4-py3-none-any.whl' \
+  'openai>=2.45,<3' 'keyring>=25,<26' 'Pillow>=11,<12'
+```
+
+只在缺依赖时安装，不覆盖宿主已有兼容版本。脚本头部的PEP 723声明为可选工具提供依赖信息，不会阻止普通Python运行；宿主已有uv时也可以用uv，不需要为了启动额外安装它。不把整个器灵skill复制进来，也不依赖它安装在某个私人目录。
 
 授权程序通过官方 `QilingAuthorizationClient` 创建请求，只打开服务端的 `verification_url`，按服务端间隔（至少3秒）查询；拒绝、过期、已领取或取消时停止。`device_code` 只在进程内，不放URL/日志。领取的Key存系统安全凭据库；macOS用钥匙串，其他系统用受支持的安全密钥环。没有安全密钥环时先说明，允许用户在本地以环境变量 `QILING_API_KEY` 提供Key，不降级为明文文件。不要让用户把Key发到会话里。
 
@@ -33,8 +41,8 @@ uv run scripts/qiling_images.py models
 
 ```sh
 # 每次一张，任务从现有主题编译，prompt/IP锁定/参考图顺序沿用共享逻辑。
-uv run scripts/qiling_images.py run --topic 主题目录 --stage 2 --id C01
-uv run scripts/qiling_images.py run --topic 主题目录 --stage 3 --id shot-01
+python scripts/qiling_images.py run --topic 主题目录 --stage 2 --id C01
+python scripts/qiling_images.py run --topic 主题目录 --stage 3 --id shot-01
 ```
 
 `--size` 只填写该模型实时文档支持的值。若核实模型有输入图数量上限，可用 `--max-reference-images 数量`，复用现有无损素材板包装；原资产引用不被丢弃。

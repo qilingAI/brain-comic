@@ -120,7 +120,7 @@ BGM从我提供的文件夹选择：/你的/BGM目录
 - 默认器灵平台：`https://toolsoul.daniu7.cn`。
 - 默认模型：`doubao-seedream-5-0-flash`。
 - API Key 保存到系统安全凭据库；具体模型能力与费用以器灵平台为准。
-- 本地脚本需要 Python 3.10+；视频制作另需 FFmpeg 和 ffprobe。图片导入、整理及参考图打包使用 Pillow；器灵脚本可由 uv 自动准备其声明的依赖。
+- 脚本优先使用 Agent 自带或当前已有的 Python 3.10+ 环境，由 Agent 按需补齐依赖，不要求安装 uv。视频制作需要 FFmpeg 和 ffprobe；只生成图片集时无需视频环境。
 
 需要器灵生图时，同样告诉 Agent：
 

@@ -60,7 +60,7 @@ class QilingTests(unittest.TestCase):
         try:
             from qiling_ai_sdk import QilingAuthorizationClient
         except ImportError:
-            self.skipTest("Official Qiling SDK is optional outside the uv runtime")
+            self.skipTest("Install the optional official Qiling SDK to test its authorization flow")
         auth = QilingAuthorizationClient(self.config["api_url"], client_name="brain-comic")
         auth._http._request = Mock(side_effect=[
             dict(device_code="private-device-code", verification_url="https://platform.invalid/approve",
