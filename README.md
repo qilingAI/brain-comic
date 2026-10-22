@@ -22,11 +22,17 @@
 
 [查看完整视频示例](assets/demo/comic-demo.mp4) · 展示版不附配乐，实际制作可使用用户提供的 BGM 文件夹。
 
-## 开始使用
+## 一句话安装
 
-将整个 `brain-comic` 文件夹放入支持 Agent Skills 的助手技能目录，保持目录内文件完整。以 Codex 为例，安装到 `~/.codex/skills/brain-comic/`，然后在助手中使用 `$brain-comic`。
+把这句话发给你的 Agent：
 
-没有技能安装入口的助手，也可以直接读取本目录的 [SKILL.md](SKILL.md)，按其中规则执行。创作内容放在独立主题目录，不需要原开发工程中的登录、保活或发布脚本。
+```text
+请帮我安装这个 Skill：https://github.com/qilingAI/brain-comic
+```
+
+安装后，直接告诉 Agent 主题和想要的效果。
+
+## 开始创作
 
 ### 给一个主题
 
@@ -116,10 +122,10 @@ BGM从我提供的文件夹选择：/你的/BGM目录
 - API Key 保存到系统安全凭据库；具体模型能力与费用以器灵平台为准。
 - 本地脚本需要 Python 3.10+；视频制作另需 FFmpeg 和 ffprobe。图片导入、整理及参考图打包使用 Pillow；器灵脚本可由 uv 自动准备其声明的依赖。
 
-首次使用器灵通道时，可让助手发起授权，或在本目录执行：
+需要器灵生图时，同样告诉 Agent：
 
-```sh
-uv run scripts/qiling_images.py authorize
+```text
+使用器灵生图，帮我发起 API Key 授权。
 ```
 
 用户在浏览器自行登录并确认。器灵授权与调用已接入并通过模拟测试；本项目暂未完成真实授权和该模型的付费生图联调。用户自带 IP 的传图绑定已测试，实际还原效果仍需生成后检查。
